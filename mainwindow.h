@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "film.h"
+#include "projection.h"
 #include <QMainWindow>
 
 
@@ -31,9 +32,24 @@ private slots:
 
     void on_pushButton_update_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_pushButton_pdfFilms_clicked();
+
+    void on_pushButton_tri_clicked();
+
+    void on_pushButton_ajouter_proj_clicked();
+
+    void on_tableView_projections_activated(const QModelIndex &index);
+
+    void on_pushButton_update_proj_clicked();
+
+    void on_pushButton_supp_proj_clicked();
+
 private:
     Ui::MainWindow *ui;
     film tmpFilm;
+    projection tmpProjection;
     //QSound *son;
 
 };

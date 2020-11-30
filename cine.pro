@@ -2,6 +2,7 @@ QT       += core gui sql
 QT += widgets multimedia
 
 CONFIG += console
+QT += printsupport
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -17,13 +18,15 @@ SOURCES += \
     dialog.cpp \
     film.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    projection.cpp
 
 HEADERS += \
     connexion.h \
     dialog.h \
     film.h \
-    mainwindow.h
+    mainwindow.h \
+    projection.h
 
 FORMS += \
     dialog.ui \

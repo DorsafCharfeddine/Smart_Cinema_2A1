@@ -4,6 +4,8 @@
 #include <QDate>
 #include <QSqlQueryModel>
 #include <QStringListModel>
+#include <QTableView>
+#include <QtPrintSupport/QPrinter>
 
 class film
 {
@@ -32,8 +34,19 @@ public:
 
     bool ajouter();
     QSqlQueryModel * afficher();
-    bool modifier(int, QString, QString, QString, QString, QDate);
     bool supprimer(int);
+    QSqlQueryModel * rechercher_multi(int, QString, QDate);
+    QSqlQueryModel * trier(QString);
+    void exporter(QTableView *table);
+
+   // void ex(QPrinter* printer, QSqlQuery&  Query);
+
+    void PrintTable( QPrinter* printer, QSqlQuery&  Query);
+    void print();
+
+
+
+
 
 };
 

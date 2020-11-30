@@ -14,13 +14,11 @@ int main(int argc, char *argv[])
     if (test)
     {
         w.show();
-        //qDebug() <<"Connexion reussite";
         QMessageBox::information(nullptr, QObject::tr("database is open") ,
                      QObject::tr("connection succsseful.\n" "Click cancel to exit"), QMessageBox::Cancel);
     }
     else
     {
-        //qDebug() <<"Erreur de connexion";
         QMessageBox::critical(nullptr, QObject::tr("database is not open") ,
                      QObject::tr("connection failed.\n" "Click cancel to exit"), QMessageBox::Cancel);
     }
