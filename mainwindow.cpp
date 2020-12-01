@@ -11,6 +11,9 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QPropertyAnimation>
+#include <QPrintDialog>
+#include <QTextStream>
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -34,19 +37,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->dateTimeEdit_datep->setDisplayFormat("dd.MM.yyyy hh:mm");
 
 
-
-
     ui->tableView_films->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableView_films->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     ui->tableView_projections->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView_projections->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    QPropertyAnimation *animation = new QPropertyAnimation(ui->ajouter, "geometry");
+   /* QPropertyAnimation *animation = new QPropertyAnimation(ui->ajouter, "geometry");
     animation->setDuration(200);
     animation->setStartValue(ui->ajouter->geometry());
     animation->setEndValue(QRect(200, 200, 100, 50));
-    animation->start();
+    animation->start();*/
 
 
     ui->tableView_films->setModel(tmpFilm.afficher());
@@ -105,7 +106,7 @@ void MainWindow::on_tableView_films_activated(const QModelIndex &index)
             ui->comboBox_genre->setText(query.value(2).toString());
             ui->textEdit_description->setText(query.value(3).toString());
             ui->lineEdit_duree->setText(query.value(4).toString());
-           // ui->dateEdit_ds->setDate(query.value(5));
+            ui->dateEdit_ds->setDate(query.value(5));
         }
     }
     ui->tableView_films->setStyleSheet("QTableView { selection-color: black; selection-background-color: black; }");
@@ -167,32 +168,6 @@ void MainWindow::on_pushButton_clicked()
 
 }
 
-void MainWindow::on_pushButton_pdfFilms_clicked()
-{
-
-    QString html="ok";
-       QSqlQueryModel * model= new QSqlQueryModel();
-       model->setQuery("SELECT * FROM film");
-       int row_count = model->rowCount();
-       for(int i=0;i<row_count;i++)
-       {
-           QString id = model->record(i).value("id").toString();
-           QString nom = model->record(i).value("nom").toString();
-           html=html+"<h1>id: "+id+"</h1>"
-                     "<h1>nom: "+nom+"</h1>"
-                     "<h1></h1>";
-       }
-       QTextDocument document;
-       document.setHtml(html);
-       QPrinter printer(QPrinter::PrinterResolution);
-       printer.setOutputFormat(QPrinter::PdfFormat);
-       printer.setOutputFileName("test.pdf");
-       document.print(&printer);
-}
-
-
-
-
 void MainWindow::on_pushButton_tri_clicked()
 {
     if (ui->checkBox_idTri->isChecked())
@@ -202,7 +177,54 @@ void MainWindow::on_pushButton_tri_clicked()
 }
 
 
+void MainWindow::on_pushButton_pdfFilms_clicked()
+{
+      QString strStream;
+      QTextStream out(&strStream);
+      const int rowCount = ui->tableView_films->model()->rowCount();
+      const int columnCount = ui->tableView_films->model()->columnCount();
+
+      out << "<h2 align=left>CINE + </h2>";
+      out << "<h2 align=right>HEXASCRIPT </h2>";
+      out << "<h1 align=center>LISTE DES FILMS </h1>";
+
+      for(int column = 0;column < columnCount; column++)
+        if(!ui->tableView_films->isColumnHidden(column))
+               out <<QString("<td>%1</td>").arg(ui->tableView_films->model()->headerData(column, Qt::Horizontal).toString());
+         for(int row = 0;row < rowCount; row++)
+         {
+             out <<"<tr>";
+             for(int column = 0 ;column < columnCount ; column++)
+             {
+                  if(!ui->tableView_films->isColumnHidden(column))
+                  {
+                        QString data =ui->tableView_films->model()->data(ui->tableView_films->model()->index(row, column)).toString().simplified();
+                        out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                  }
+              }
+          }
+
+       QTextDocument *document = new QTextDocument();
+       document->setHtml(strStream);
+       QPrinter printer(QPrinter::PrinterResolution);
+       QPrintDialog *daddy = new QPrintDialog(&printer , NULL);
+       if(daddy->exec() == QDialog::Accepted){
+            document->print(&printer);
+       }
+       delete document;
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    tmpFilm.exporter_excel(ui->tableView_films);
+}
+
+
+
 // --------------PROJECTION------------//
+
+
 
 void MainWindow::on_pushButton_ajouter_proj_clicked()
 {
@@ -262,4 +284,83 @@ void MainWindow::on_pushButton_supp_proj_clicked()
                        QObject::tr("Film supprimé avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
 
       }
+}
+
+void MainWindow::on_rech_proj_clicked()
+{
+    int num_projection=ui->lineEdit_rech_nump->text().toInt();
+    QDateTime date_projection=ui->dateTimeEdit_rechP->dateTime();
+    int num_salle=ui->spinBox_rechsalle->text().toInt();
+
+    QSqlQueryModel *rech=tmpProjection.rechercher_p(num_projection,date_projection,num_salle);
+    if(rech)
+    {
+        ui->tableView_projections->setModel(rech);
+    }
+    else
+    {
+        ui->tableView_projections->setModel(tmpProjection.afficher_p());
+    }
+}
+
+void MainWindow::on_tri_proj_clicked()
+{
+    if (ui->checkBox_numpTri->isChecked())
+    {
+        ui->tableView_projections->setModel(tmpProjection.trier_p("num_projection"));
+    }
+    else if(ui->checkBox_datePTri->isChecked())
+    {
+        ui->tableView_projections->setModel(tmpProjection.trier_p("date_projection"));
+    }
+    else if(ui->checkBox_salleTri->isChecked())
+    {
+        ui->tableView_projections->setModel(tmpProjection.trier_p("num_salle"));
+    }
+
+}
+
+
+void MainWindow::on_exporterPdf_proj_clicked()
+{
+    QString strStream;
+    QTextStream out(&strStream);
+    const int rowCount = ui->tableView_projections->model()->rowCount();
+    const int columnCount = ui->tableView_projections->model()->columnCount();
+
+    out << "</div>"
+    "<h2 align=left>"
+          "CINE+ <h2>";
+    out << "<h2 align=right>HEXASCRIPT </h2>";
+    out << "<h1 align=center>LISTE DES PROJECTIONS </h1>";
+
+    for(int column = 0;column < columnCount; column++)
+      if(!ui->tableView_projections->isColumnHidden(column))
+             out <<QString("<td>%1</td>").arg(ui->tableView_projections->model()->headerData(column, Qt::Horizontal).toString());
+       for(int row = 0;row < rowCount; row++)
+       {
+           out <<"<tr>";
+           for(int column = 0 ;column < columnCount ; column++)
+           {
+                if(!ui->tableView_films->isColumnHidden(column))
+                {
+                      QString data =ui->tableView_projections->model()->data(ui->tableView_projections->model()->index(row, column)).toString().simplified();
+                      out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                }
+            }
+        }
+
+     QTextDocument *document = new QTextDocument();
+     document->setHtml(strStream);
+     QPrinter printer(QPrinter::PrinterResolution);
+     QPrintDialog *daddy = new QPrintDialog(&printer , NULL);
+     if(daddy->exec() == QDialog::Accepted){
+          document->print(&printer);
+     }
+     delete document;
+}
+
+void MainWindow::on_exporterExcel_proj_clicked()
+{
+    tmpProjection.exporterExcel_p(ui->tableView_projections);
 }

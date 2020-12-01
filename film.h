@@ -6,7 +6,7 @@
 #include <QStringListModel>
 #include <QTableView>
 #include <QtPrintSupport/QPrinter>
-
+#include <QSqlTableModel>
 class film
 {
 private:
@@ -37,14 +37,7 @@ public:
     bool supprimer(int);
     QSqlQueryModel * rechercher_multi(int, QString, QDate);
     QSqlQueryModel * trier(QString);
-    void exporter(QTableView *table);
-
-   // void ex(QPrinter* printer, QSqlQuery&  Query);
-
-    void PrintTable( QPrinter* printer, QSqlQuery&  Query);
-    void print();
-
-
+    void exporter_excel(QTableView *table);
 
 
 

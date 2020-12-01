@@ -46,6 +46,16 @@ private slots:
 
     void on_pushButton_supp_proj_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_rech_proj_clicked();
+
+    void on_tri_proj_clicked();
+
+    void on_exporterPdf_proj_clicked();
+
+    void on_exporterExcel_proj_clicked();
+
 private:
     Ui::MainWindow *ui;
     film tmpFilm;

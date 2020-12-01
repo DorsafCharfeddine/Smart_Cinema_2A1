@@ -77,7 +77,7 @@ color: purple;
  }</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Film">
      <attribute name="title">
@@ -433,7 +433,7 @@ QPushButton:disabled {
 }</string>
        </property>
        <property name="text">
-        <string>Exporter</string>
+        <string>Exporter PDF</string>
        </property>
       </widget>
       <widget class="QTableView" name="tableView_films">
@@ -685,12 +685,26 @@ QPushButton:hover:!pressed{ color: green}</string>
         </property>
        </widget>
       </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>344</x>
+         <y>410</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Exporter Excel</string>
+       </property>
+      </widget>
       <zorder>groupBox_4</zorder>
       <zorder>groupBox</zorder>
       <zorder>pushButton_pdfFilms</zorder>
       <zorder>tableView_films</zorder>
       <zorder>pushButton_suppFilm</zorder>
       <zorder>pushButton_update</zorder>
+      <zorder>pushButton_2</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="Projection">
@@ -817,7 +831,7 @@ border-radius: 4px;
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>400</y>
+         <y>410</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -940,12 +954,12 @@ border-radius: 4px;
       <property name="title">
        <string>Liste des projections</string>
       </property>
-      <widget class="QPushButton" name="exporter_proj">
+      <widget class="QPushButton" name="exporterPdf_proj">
        <property name="geometry">
         <rect>
-         <x>380</x>
-         <y>400</y>
-         <width>75</width>
+         <x>440</x>
+         <y>410</y>
+         <width>81</width>
          <height>23</height>
         </rect>
        </property>
@@ -959,7 +973,7 @@ border-radius: 4px;
 font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string>Exporter</string>
+        <string>Exporter PDF</string>
        </property>
       </widget>
       <widget class="QTableView" name="tableView_projections">
@@ -968,7 +982,7 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
          <x>20</x>
          <y>130</y>
          <width>511</width>
-         <height>261</height>
+         <height>271</height>
         </rect>
        </property>
       </widget>
@@ -976,7 +990,7 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>400</y>
+         <y>410</y>
          <width>75</width>
          <height>21</height>
         </rect>
@@ -998,7 +1012,7 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>400</y>
+         <y>410</y>
          <width>81</width>
          <height>23</height>
         </rect>
@@ -1063,7 +1077,7 @@ border-radius: 4px;
        <widget class="QPushButton" name="rech_proj">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>410</x>
           <y>20</y>
           <width>75</width>
           <height>23</height>
@@ -1123,7 +1137,7 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
        <widget class="QPushButton" name="tri_proj">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>410</x>
           <y>10</y>
           <width>75</width>
           <height>23</height>
@@ -1133,7 +1147,7 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
          <string>Trier</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBox_numTri">
+       <widget class="QCheckBox" name="checkBox_numpTri">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1173,12 +1187,26 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </property>
        </widget>
       </widget>
+      <widget class="QPushButton" name="exporterExcel_proj">
+       <property name="geometry">
+        <rect>
+         <x>344</x>
+         <y>410</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Exporter Excel</string>
+       </property>
+      </widget>
       <zorder>groupBox_3</zorder>
-      <zorder>exporter_proj</zorder>
+      <zorder>exporterPdf_proj</zorder>
       <zorder>tableView_projections</zorder>
       <zorder>pushButton_supp_proj</zorder>
       <zorder>pushButton_update_proj</zorder>
       <zorder>groupBox_5</zorder>
+      <zorder>exporterExcel_proj</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="tab">

@@ -2,6 +2,7 @@
 #define PROJECTION_H
 #include <QDateTimeEdit>
 #include <QSqlQueryModel>
+#include <QTableView>
 
 class projection
 {
@@ -30,9 +31,11 @@ public:
 
     bool ajouter_p();
     QSqlQueryModel * afficher_p();
-    bool modifier_p(int, int, QDateTime, int);
     bool supprimer_p(int);
     QSqlQueryModel * rechercher_p(int, QDateTime, int);
+    QSqlQueryModel * trier_p(QString);
+    void exporterExcel_p(QTableView *table);
+
 
 
 

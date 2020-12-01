@@ -14,6 +14,7 @@
 #include <QTableWidget>
 #include <QtPrintSupport/QPrintDialog>
 
+
 film::film()
 {
 
@@ -83,18 +84,18 @@ QSqlQueryModel * film::rechercher_multi(int id,QString nom,QDate date_sortie)
 
 QSqlQueryModel * film::trier(QString crit)
 {
-    QSqlQuery *qry=new QSqlQuery();
+    QSqlQuery *query=new QSqlQuery();
        QSqlQueryModel *model=new QSqlQueryModel();
-       qry->prepare("select * from film order by "+crit+" ");
-       qry->exec();
-       model->setQuery(*qry);
+       query->prepare("select * from film order by "+crit+" ");
+       query->exec();
+       model->setQuery(*query);
        return model;
 }
 
-/*void film::exporter(QTableView *table)
+void film::exporter_excel(QTableView *table)
 {
-    QString filters("PDF files (.pdf);;All files (*.*)");
-    QString defaultFilter("PDF files (*.pdf)");
+    QString filters("CSV files (*.csv);;All files (*.*)");
+    QString defaultFilter("CSV files (*.csv)");
     QString fileName = QFileDialog::getSaveFileName(0, "Save file", QCoreApplication::applicationDirPath(),
                                                         filters, &defaultFilter);
     QFile file(fileName);
@@ -126,107 +127,4 @@ QSqlQueryModel * film::trier(QString crit)
             }
             file.close();
         }
-}*/
-/*void film::ex(QTableView *table)
-{
-   const int columns = tbl->columnCount();
-                const int rows = tbl->rowCount();
-                QTextDocument doc;
-                QTextCursor cursor(&doc);
-                QTextTableFormat tableFormat;
-                tableFormat.setHeaderRowCount(1);
-                tableFormat.setAlignment(Qt::AlignHCenter);
-                tableFormat.setCellPadding(0);
-                tableFormat.setCellSpacing(0);
-                tableFormat.setBorder(1);
-                tableFormat.setBorderBrush(QBrush(Qt::SolidPattern));
-                tableFormat.clearColumnWidthConstraints();
-                QTextTable *textTable = cursor.insertTable(rows + 1, columns, tableFormat);
-                QTextCharFormat tableHeaderFormat;
-                tableHeaderFormat.setBackground(QColor("#DADADA"));
-                for (int i = 0; i < columns; i++) {
-                    QTextTableCell cell = textTable->cellAt(0, i);
-                    cell.setFormat(tableHeaderFormat);
-                    QTextCursor cellCursor = cell.firstCursorPosition();
-                    cellCursor.insertText(tbl->horizontalHeaderItem(i)->data(Qt::DisplayRole).toString());
-                }
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < columns; j++) {
-                        QTableWidgetItem *item = tbl->item(i, j);
-                        if (!item || item->text().isEmpty()) {
-                            tbl->setItem(i, j, new QTableWidgetItem("0"));
-                        }
-
-                        QTextTableCell cell = textTable->cellAt(i, j);
-                        QTextCursor cellCursor = cell.firstCursorPosition();
-                        cellCursor.insertText(tbl->item(i, j)->text());
-                    }
-                }
-                cursor.movePosition(QTextCursor::End);
-                QPrinter printer(QPrinter::PrinterResolution);
-                printer.setOutputFormat(QPrinter::PdfFormat);
-                printer.setPaperSize(QPrinter::A4);
-                printer.setOrientation(QPrinter::Landscape);
-                printer.setOutputFileName(strFile);
-                doc.setDocumentMargin(0);
-                doc.setTextWidth(5);
-                doc.print(&printer);
-
-    void film::PrintTable( QPrinter* printer, QSqlQuery&  Query ) {
-      QString strStream;
-      QTextStream out(&strStream);
-
-      const int rowCount = Query.size();
-      const int columnCount = Query.record().count();
-
-      out <<  "<html>\n"
-          "<head>\n"
-          "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-          <<  QString("<title>%1</title>\n").arg("TITLE OF TABLE")
-          <<  "</head>\n"
-          "<body bgcolor=#ffffff link=#5000A0>\n"
-          "<table border=1 cellspacing=0 cellpadding=2>\n";
-
-      // headers
-      out << "<thead><tr bgcolor=#f0f0f0>";
-      for (int column = 0; column < columnCount; column++)
-        out << QString("<th>%1</th>").arg(Query.record().fieldName(column));
-      out << "</tr></thead>\n";
-
-      while (Query.next()) {
-        out << "<tr>";
-        for (int column = 0; column < columnCount; column++) {
-          QString data = Query.value(column).toString();
-          out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-        }
-        out << "</tr>\n";
-      }
-
-      out <<  "</table>\n"
-          "</body>\n"
-          "</html>\n";
-
-      QTextDocument document;
-      document.setHtml(strStream);
-      document.print(printer);
-
-    }*/
-      void film::print() {
-    QString html;
-    QString id;
-    QString nom;
-       QString genre;
-       QString description;
-       QString date_sortie;
-    html="<h1>id: "+id+"</h1>"
-         "<h1>nom: "+nom+"</h1>"
-         "<h1>genre: "+genre+"</h1>"
-         "<h1>description: "+description+"</h1>"
-         "<h1>date_sortie: "+date_sortie+"</h1>";
-       QTextDocument document;
-       document.setHtml(html);
-       QPrinter printer(QPrinter::PrinterResolution);
-       printer.setOutputFormat(QPrinter::PdfFormat);
-       printer.setOutputFileName("test.pdf");
-       document.print(&printer);
 }
