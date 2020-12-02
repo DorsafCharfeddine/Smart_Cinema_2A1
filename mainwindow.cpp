@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_id->setMaxLength(8);
     ui->lineEdit_duree->setMaxLength(3);
     ui->dateEdit_ds->setMinimumDate(QDate::currentDate().addDays(-45000));
-    ui->dateEdit_ds->setMaximumDate(QDate::currentDate());
+    ui->dateEdit_ds->setMaximumDate(QDate::currentDate().addDays(2));
     ui->dateEdit_ds->setDisplayFormat("dd.MM.yyyy");
     ui->lineEdit_duree->setMaxLength(4);
 
@@ -174,7 +174,17 @@ void MainWindow::on_pushButton_tri_clicked()
     {
         ui->tableView_films->setModel(tmpFilm.trier("id"));
     }
+    else if (ui->checkBox_nomTri->isChecked())
+    {
+        ui->tableView_films->setModel(tmpFilm.trier("nom"));
+    }
+    else if (ui->checkBox_dateTri->isChecked())
+    {
+        ui->tableView_films->setModel(tmpFilm.trier("date_sortie"));
+
+    }
 }
+
 
 
 void MainWindow::on_pushButton_pdfFilms_clicked()
@@ -267,6 +277,8 @@ void MainWindow::on_pushButton_update_proj_clicked()
     tableModel->setTable("PROJECTION");
     tableModel->select();
     ui->tableView_projections->setModel(tableModel);
+    ui->pushButton_update_proj->setEnabled(true);
+    ui->pushButton_update_proj->setText("Modifier");
 
 }
 
@@ -280,8 +292,8 @@ void MainWindow::on_pushButton_supp_proj_clicked()
       if(tmpProjection.supprimer_p(num_projection))
       {
           ui->tableView_projections->setModel(tmpProjection.afficher_p());
-          QMessageBox::information(nullptr, QObject::tr("Suppression film") ,
-                       QObject::tr("Film supprimé avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
+          QMessageBox::information(nullptr, QObject::tr("Suppression projection") ,
+                       QObject::tr("Projection supprimée avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
 
       }
 }

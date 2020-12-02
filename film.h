@@ -39,8 +39,6 @@ public:
     QSqlQueryModel * trier(QString);
     void exporter_excel(QTableView *table);
 
-
-
 };
 
 #endif // FILM_H

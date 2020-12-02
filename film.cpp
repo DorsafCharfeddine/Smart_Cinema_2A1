@@ -86,7 +86,7 @@ QSqlQueryModel * film::trier(QString crit)
 {
     QSqlQuery *query=new QSqlQuery();
        QSqlQueryModel *model=new QSqlQueryModel();
-       query->prepare("select * from film order by "+crit+" ");
+       query->prepare("select * from film order by "+crit+"");
        query->exec();
        model->setQuery(*query);
        return model;
