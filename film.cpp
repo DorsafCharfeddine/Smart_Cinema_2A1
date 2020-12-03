@@ -53,8 +53,8 @@ QSqlQueryModel * film::afficher()
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("Genre"));
     model->setHeaderData(3, Qt::Horizontal, QObject::tr("Description"));
-    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Durée"));
-    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Date de sortie"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Duree"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Date_sortie"));
 
     return model;
 }

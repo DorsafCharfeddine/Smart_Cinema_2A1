@@ -56,10 +56,16 @@ private slots:
 
     void on_exporterExcel_proj_clicked();
 
+    void on_pushButton_afficherF_clicked();
+
+    void on_pushButton_afficherP_clicked();
+
 private:
     Ui::MainWindow *ui;
     film tmpFilm;
     projection tmpProjection;
+    QRegExp duree_reg;
+
     //QSound *son;
 
 };

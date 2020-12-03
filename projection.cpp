@@ -42,11 +42,11 @@ QSqlQueryModel * projection::afficher_p()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     model->setQuery("SELECT * from PROJECTION");
-    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Num projection"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("ID film"));
-    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date de projection"));
-    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Numero salle"));
-    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Capacite salle"));
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("Num_projection"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_projection"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Num_salle"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Capacite_salle"));
 
     return model;
 }
