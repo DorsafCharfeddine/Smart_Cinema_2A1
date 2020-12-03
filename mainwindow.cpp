@@ -238,7 +238,9 @@ void MainWindow::on_pushButton_tri_clicked()
 
 void MainWindow::on_pushButton_pdfFilms_clicked()
 {
-    {
+    QMediaPlayer * sound = new QMediaPlayer();
+       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+       sound->play();
             QString strStream;
                     QTextStream out(&strStream);
                     const int rowCount = ui->tableView_films->model()->rowCount();
@@ -250,7 +252,7 @@ void MainWindow::on_pushButton_pdfFilms_clicked()
                             <<  QString("<title>%1</title>\n").arg("film")
                             <<  "</head>\n"
                             "<body bgcolor=#C5D4F6 link=#5000A0>\n"
-                                "<img src='C:/Users/Asus/Desktop/hexa_script.png' width='100' height='100'>\n"
+                                "<img src='C:/Users/Asus/Documents/cine/hexa_script.png' width='100' height='100'>\n"
                                 "<h1>Liste des films</h1>"
                                 "<table border=1 cellspacing=0 cellpadding=2>\n";
 
@@ -282,12 +284,15 @@ void MainWindow::on_pushButton_pdfFilms_clicked()
                            if (dialog->exec() == QDialog::Accepted) {
                                document->print(&printer);
                             }
-        }
+
 }
 
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    QMediaPlayer * sound = new QMediaPlayer();
+       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+       sound->play();
     tmpFilm.exporter_excel(ui->tableView_films);
 }
 
@@ -415,6 +420,9 @@ void MainWindow::on_tri_proj_clicked()
 
 void MainWindow::on_exporterPdf_proj_clicked()
 {
+    QMediaPlayer * sound = new QMediaPlayer();
+       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+       sound->play();
     QString strStream;
             QTextStream out(&strStream);
             const int rowCount = ui->tableView_projections->model()->rowCount();
@@ -426,7 +434,7 @@ void MainWindow::on_exporterPdf_proj_clicked()
                     <<  QString("<title>%1</title>\n").arg("projection")
                     <<  "</head>\n"
                     "<body bgcolor=#C5D4F6 link=#5000A0>\n"
-                        "<img src='C:/Users/Asus/Desktop/hexa_script.png' width='100' height='100'>\n"
+                        "<img src='C:/Users/Asus/Documents/cine/hexa_script.png' width='100' height='100'>\n"
                         "<h1>Liste des projections</h1>"
                         "<table border=1 cellspacing=0 cellpadding=2>\n";
 
@@ -462,6 +470,9 @@ void MainWindow::on_exporterPdf_proj_clicked()
 
 void MainWindow::on_exporterExcel_proj_clicked()
 {
+    QMediaPlayer * sound = new QMediaPlayer();
+       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+       sound->play();
     tmpProjection.exporterExcel_p(ui->tableView_projections);
 }
 
