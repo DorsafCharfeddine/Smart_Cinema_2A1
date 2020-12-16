@@ -41,13 +41,13 @@ bool projection::ajouter_p()
 QSqlQueryModel * projection::afficher_p()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
-    model->setQuery("SELECT * from PROJECTION");
+    model->setQuery(" SELECT num_projection, nom, date_projection, num_salle, capacite_salle from projection inner join film"
+                    " on projection.id = film.id");
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("Num_projection"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom film"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_projection"));
     model->setHeaderData(3, Qt::Horizontal, QObject::tr("Num_salle"));
     model->setHeaderData(4, Qt::Horizontal, QObject::tr("Capacite_salle"));
-
     return model;
 }
 
@@ -78,11 +78,11 @@ QSqlQueryModel * projection::rechercher_p(int num_projection, QDateTime date_pro
 QSqlQueryModel * projection::trier_p(QString crit)
 {
     QSqlQuery *query=new QSqlQuery();
-       QSqlQueryModel *model=new QSqlQueryModel();
-       query->prepare("select * from projection order by "+crit+" ");
-       query->exec();
-       model->setQuery(*query);
-       return model;
+    QSqlQueryModel *model=new QSqlQueryModel();
+    query->prepare("select * from projection order by "+crit+" ");
+    query->exec();
+    model->setQuery(*query);
+    return model;
 }
 
 void projection::exporterExcel_p(QTableView *table)

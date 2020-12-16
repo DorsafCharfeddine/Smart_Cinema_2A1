@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "film.h"
 #include "projection.h"
+#include "arduino.h"
 #include <QMainWindow>
 
 
@@ -60,10 +61,18 @@ private slots:
 
     void on_pushButton_afficherP_clicked();
 
+    void on_comboBox_idF_proj_currentIndexChanged(const QString &arg1);
+
+    void on_comboBox_idF_proj_activated(const QString &arg1);
+
+    void on_idF_proj_clicked();
+
 private:
     Ui::MainWindow *ui;
     film tmpFilm;
     projection tmpProjection;
+    //arduino A;
+    QByteArray Data;
     QRegExp duree_reg;
 
     //QSound *son;

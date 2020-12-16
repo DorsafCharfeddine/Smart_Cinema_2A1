@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>986</width>
-    <height>579</height>
+    <width>933</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="font">
@@ -26,8 +26,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
+      <x>10</x>
+      <y>0</y>
       <width>901</width>
       <height>521</height>
      </rect>
@@ -79,7 +79,7 @@ color: purple;
  }</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Film">
      <attribute name="title">
@@ -899,8 +899,8 @@ border-radius: 4px;
       <widget class="QLineEdit" name="lineEdit_idfilmp">
        <property name="geometry">
         <rect>
-         <x>130</x>
-         <y>90</y>
+         <x>70</x>
+         <y>270</y>
          <width>141</width>
          <height>20</height>
         </rect>
@@ -1058,6 +1058,42 @@ border: 1px solid grey;
 border-radius: 4px;</string>
        </property>
       </widget>
+      <widget class="QComboBox" name="comboBox_idF_proj">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>90</y>
+         <width>141</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="idF_proj">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>90</y>
+         <width>141</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <zorder>idF_proj</zorder>
+      <zorder>label_82</zorder>
+      <zorder>label_84</zorder>
+      <zorder>lineEdit_idfilmp</zorder>
+      <zorder>label_85</zorder>
+      <zorder>spinBox_salle</zorder>
+      <zorder>pushButton_ajouter_proj</zorder>
+      <zorder>label</zorder>
+      <zorder>lineEdit_nump</zorder>
+      <zorder>dateTimeEdit_datep</zorder>
+      <zorder>label_2</zorder>
+      <zorder>lineEdit_capacite</zorder>
+      <zorder>comboBox_idF_proj</zorder>
      </widget>
      <widget class="QGroupBox" name="groupBox_18">
       <property name="geometry">
@@ -1420,6 +1456,11 @@ QPushButton:disabled {
       <zorder>pushButton_afficherP</zorder>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Stats</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -1427,7 +1468,7 @@ QPushButton:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>986</width>
+     <width>933</width>
      <height>21</height>
     </rect>
    </property>

@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textEdit_description->setPlaceholderText("Desc...");
     ui->lineEdit_duree->setPlaceholderText(".h..");
     ui->lineEdit_nump->setPlaceholderText("Num...");
-    ui->lineEdit_idfilmp->setPlaceholderText("ID...");
+    ui->lineEdit_idfilmp->setPlaceholderText("ID film...");
     ui->lineEdit_capacite->setPlaceholderText("Capacite...");
     ui->lineEdit_rechid->setPlaceholderText("ID film...");
     ui->lineEdit_rechnom->setPlaceholderText("Nom film...");
@@ -102,64 +102,61 @@ void MainWindow::on_ajouter_clicked()
     QString duree = ui->lineEdit_duree->text();
     QDate date_sortie = ui->dateEdit_ds->date();
     film f(id, nom, genre, description, duree, date_sortie);
-    if (id>0 && nom!="" && description!= "" && duree!="")
+    if (id>0 && nom!="" && description!= "" && duree!="" && duree_verif)
     {
-        if (!duree_verif)
-        {
-             QMessageBox::warning(this,"Erreur","duree invalide");
-        }
-        else
-        {
              bool test = f.ajouter();
              if(test)
              {
                     ui->tableView_films->setModel(tmpFilm.afficher());
-                    QMessageBox::information(nullptr, QObject::tr("Ajout film") ,
-                     QObject::tr("Film ajouté avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
+                    ui->statusbar->showMessage("Film ajouté avec succès.");
+                    ui->lineEdit_duree->setStyleSheet("color: black");
+                    ui->lineEdit_id->setStyleSheet("color: black");
+                    ui->lineEdit_nom->setStyleSheet("color: black");
+                    ui->textEdit_description->setStyleSheet("color: black");
                     foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
                         {
                         widget->clear();
                         }
              }
-         }
-    }
-        else
+     }
+     else
+     {
+        if (!duree_verif)
         {
-            QMessageBox::critical(nullptr, QObject::tr("Ajout film") ,
-                     QObject::tr("Ajout échoué.\n" "Click cancel to exit"), QMessageBox::Cancel);
+            ui->lineEdit_duree->setStyleSheet("color: red");
         }
-
+        if(id<=0)
+        {
+            ui->lineEdit_id->setStyleSheet("color: red");
+        }
+        if(nom=="")
+        {
+            ui->lineEdit_nom->setStyleSheet("color: red");
+        }
+        if(description == "")
+        {
+            ui->textEdit_description->setStyleSheet("color: red");
+        }
+        if (!duree_verif && id <=0 && nom=="" && description=="")
+        {
+            ui->statusbar->showMessage("Tout les champs sont invalides.");
+        }
+      }
 }
 
 
 void MainWindow::on_tableView_films_activated(const QModelIndex &index)
 {
-    /*QString id = ui->tableView_films->model()->data(index).toString();
-    QSqlQuery query;
-    query.prepare(" select * from film where id = '"+id+"'");
-    if(query.exec())
-    {
-        while (query.next())
-        {
-            ui->lineEdit_id->setText(query.value(0).toString());
-            ui->lineEdit_nom->setText(query.value(1).toString());
-            ui->comboBox_genre->setText(query.value(2).toString());
-            ui->textEdit_description->setText(query.value(3).toString());
-            ui->lineEdit_duree->setText(query.value(4).toString());
-            ui->dateEdit_ds->setDate(query.value(5));
-        }
-    }
+/*
     ui->tableView_films->setStyleSheet("QTableView { selection-color: black; selection-background-color: black; }");
 */
 }
 
-
-
 void MainWindow::on_pushButton_update_clicked()
 {
     QMediaPlayer * sound = new QMediaPlayer();
-       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click2.mp3"));
-       sound->play();
+    sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click2.mp3"));
+    sound->play();
     if (ui->pushButton_update->isEnabled())
     {
         ui->pushButton_update->setDisabled(true);
@@ -184,13 +181,12 @@ void MainWindow::on_pushButton_suppFilm_clicked()
       if(tmpFilm.supprimer(id))
       {
         ui->tableView_films->setModel(tmpFilm.afficher());
-        QMessageBox::information(nullptr, QObject::tr("Suppression film") ,
-                     QObject::tr("Film supprimé avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
+        ui->statusbar->showMessage("Film supprimé avec succès.");
+
     }
     else
     {
-        QMessageBox::critical(nullptr, QObject::tr("Suppresion film") ,
-                     QObject::tr("Suppression échoué.\n" "Click cancel to exit"), QMessageBox::Cancel);
+          ui->statusbar->showMessage("Erreur de supression. Film existe dans une projection.");
     }
 }
 
@@ -198,20 +194,20 @@ void MainWindow::on_pushButton_suppFilm_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     QMediaPlayer * sound = new QMediaPlayer();
-       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
-       sound->play();
-            int id=ui->lineEdit_rechid->text().toInt();
-            QString nom=ui->lineEdit_rechnom->text();
-            QDate date_sortie=ui->dateEdit_rech->date();
-            QSqlQueryModel *rech=tmpFilm.rechercher_multi(id,nom,date_sortie);
-            if(rech)
-            {
-                ui->tableView_films->setModel(rech);
-            }
-            else
-            {
-                ui->tableView_films->setModel(tmpFilm.afficher());
-            }
+    sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+    sound->play();
+    int id=ui->lineEdit_rechid->text().toInt();
+    QString nom=ui->lineEdit_rechnom->text();
+    QDate date_sortie=ui->dateEdit_rech->date();
+    QSqlQueryModel *rech=tmpFilm.rechercher_multi(id,nom,date_sortie);
+    if(rech)
+    {
+        ui->tableView_films->setModel(rech);
+    }
+    else
+    {
+        ui->tableView_films->setModel(tmpFilm.afficher());
+    }
 }
 
 void MainWindow::on_pushButton_tri_clicked()
@@ -238,61 +234,59 @@ void MainWindow::on_pushButton_tri_clicked()
 
 void MainWindow::on_pushButton_pdfFilms_clicked()
 {
-    QMediaPlayer * sound = new QMediaPlayer();
+       QMediaPlayer * sound = new QMediaPlayer();
        sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
        sound->play();
-            QString strStream;
-                    QTextStream out(&strStream);
-                    const int rowCount = ui->tableView_films->model()->rowCount();
-                    const int columnCount =ui->tableView_films->model()->columnCount();
+       QString strStream;
+       QTextStream out(&strStream);
+       const int rowCount = ui->tableView_films->model()->rowCount();
+       const int columnCount =ui->tableView_films->model()->columnCount();
+           out <<  "<html>\n"
+                   "<head>\n"
+                   "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+               <<  QString("<title>%1</title>\n").arg("film")
+               <<  "</head>\n"
+                   "<body bgcolor=#C5D4F6 link=#5000A0>\n"
+                   "<img src='C:/Users/Asus/Documents/cine/hexa_script.png' width='100' height='100'>\n"
+                   "<h1>Liste des films</h1>"
+                   "<table border=1 cellspacing=0 cellpadding=2>\n";
 
-                    out <<  "<html>\n"
-                            "<head>\n"
-                            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                            <<  QString("<title>%1</title>\n").arg("film")
-                            <<  "</head>\n"
-                            "<body bgcolor=#C5D4F6 link=#5000A0>\n"
-                                "<img src='C:/Users/Asus/Documents/cine/hexa_script.png' width='100' height='100'>\n"
-                                "<h1>Liste des films</h1>"
-                                "<table border=1 cellspacing=0 cellpadding=2>\n";
-
-                    // headers
-                        out << "<thead><tr bgcolor=#f0f0f0>";
-                        for (int column = 0; column < columnCount; column++)
-                            if (!ui->tableView_films->isColumnHidden(column))
-                                out << QString("<th>%1</th>").arg(ui->tableView_films->model()->headerData(column, Qt::Horizontal).toString());
+              // headers
+            out << "<thead><tr bgcolor=#f0f0f0>";
+            for (int column = 0; column < columnCount; column++)
+                 if (!ui->tableView_films->isColumnHidden(column))
+                       out << QString("<th>%1</th>").arg(ui->tableView_films->model()->headerData(column, Qt::Horizontal).toString());
                         out << "</tr></thead>\n";
-                        // data table
-                           for (int row = 0; row < rowCount; row++) {
-                               out << "<tr>";
-                               for (int column = 0; column < columnCount; column++) {
-                                   if (!ui->tableView_films->isColumnHidden(column)) {
-                                       QString data = ui->tableView_films->model()->data(ui->tableView_films->model()->index(row, column)).toString().simplified();
+               // data table
+             for (int row = 0; row < rowCount; row++) {
+                  out << "<tr>";
+                   for (int column = 0; column < columnCount; column++) {
+                      if (!ui->tableView_films->isColumnHidden(column)) {
+                           QString data = ui->tableView_films->model()->data(ui->tableView_films->model()->index(row, column)).toString().simplified();
                                        out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                                   }
-                               }
-                               out << "</tr>\n";
-                           }
-                           out <<  "</table>\n"
-                               "</body>\n"
-                               "</html>\n";
+                       }
+               }
+               out << "</tr>\n";
+               }
+               out <<  "</table>\n"
+                       "</body>\n"
+                       "</html>\n";
 
-                           QTextDocument *document = new QTextDocument();
-                           document->setHtml(strStream);
-                           QPrinter printer;
-                           QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
-                           if (dialog->exec() == QDialog::Accepted) {
-                               document->print(&printer);
-                            }
-
+         QTextDocument *document = new QTextDocument();
+         document->setHtml(strStream);
+         QPrinter printer;
+         QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+         if (dialog->exec() == QDialog::Accepted) {
+                document->print(&printer);
+         }
 }
 
 
 void MainWindow::on_pushButton_2_clicked()
 {
     QMediaPlayer * sound = new QMediaPlayer();
-       sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
-       sound->play();
+    sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
+    sound->play();
     tmpFilm.exporter_excel(ui->tableView_films);
 }
 
@@ -310,7 +304,7 @@ void MainWindow::on_pushButton_ajouter_proj_clicked()
     int num_salle = ui->spinBox_salle->text().toInt();
     int capacite_salle = ui->lineEdit_capacite->text().toInt();
     projection p(num_projection, id, date_projection, num_salle, capacite_salle);
-    if(num_projection>0 && num_salle !=0 && capacite_salle<500)
+    if(num_projection>0 && num_salle !=0 && capacite_salle<500 && capacite_salle !=0)
     {
         bool test = p.ajouter_p();
         if(test)
@@ -326,8 +320,25 @@ void MainWindow::on_pushButton_ajouter_proj_clicked()
     }
     else
     {
-         QMessageBox::critical(nullptr, QObject::tr("Ajout Projection") ,
-                     QObject::tr("Ajout échoué.\n" "Click cancel to exit"), QMessageBox::Cancel);
+        if(num_projection <= 0)
+        {
+            ui->lineEdit_nump->setStyleSheet("color: red");
+            ui->statusbar->showMessage("Numero projection invalide.");
+        }
+        if(capacite_salle <= 0)
+        {
+            ui->lineEdit_capacite->setStyleSheet("color: red");
+            ui->statusbar->showMessage("Capacité salle invalide.");
+        }
+        if(num_salle == 0)
+        {
+            ui->spinBox_salle->setStyleSheet("color: red");
+            ui->statusbar->showMessage("Numero salle vide.");
+        }
+        if(capacite_salle <=0 && num_projection<=0 && num_salle == 0)
+        {
+            ui->statusbar->showMessage("Les champs sont invalides.");
+        }
     }
 }
 
@@ -367,14 +378,11 @@ void MainWindow::on_pushButton_supp_proj_clicked()
       if(tmpProjection.supprimer_p(num_projection))
       {
           ui->tableView_projections->setModel(tmpProjection.afficher_p());
-          QMessageBox::information(nullptr, QObject::tr("Suppression projection") ,
-                       QObject::tr("Projection supprimée avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
-
+          ui->statusbar->showMessage("Projection supprimée avec succès.");
       }
       else
       {
-          QMessageBox::critical(nullptr, QObject::tr("Suppresion Projection") ,
-                       QObject::tr("Suppression échoué.\n" "Click cancel to exit"), QMessageBox::Cancel);
+          ui->statusbar->showMessage("Erreur de suppression.");
       }
 }
 
@@ -491,4 +499,37 @@ void MainWindow::on_pushButton_afficherP_clicked()
        sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
        sound->play();
     ui->tableView_projections->setModel(tmpProjection.afficher_p());
+}
+
+void MainWindow::on_comboBox_idF_proj_activated(const QString &arg1)
+{
+    /*QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery *qry = new QSqlQuery();
+    qry->prepare("select id from film");
+    qry->exec();
+    model->setQuery(*qry);
+    ui->comboBox_idF_proj->setModel(model);
+    qDebug() << (model->rowCount());*/
+
+}
+
+void MainWindow::on_comboBox_idF_proj_currentIndexChanged(const QString &arg1)
+{
+    QString id = ui->comboBox_idF_proj->currentText() ;
+    QSqlQuery qry;
+    qry.prepare("select * from film where id='"+id+"'");
+    qry.exec();
+}
+
+
+
+void MainWindow::on_idF_proj_clicked()
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery *qry = new QSqlQuery();
+    qry->prepare("select id from film");
+    qry->exec();
+    model->setQuery(*qry);
+    ui->comboBox_idF_proj->setModel(model);
+    qDebug() << (model->rowCount());
 }
