@@ -55,21 +55,19 @@ bool projection::supprimer_p(int num_projection)
 {
     QSqlQuery query;
     QString res = QString::number(num_projection);
-    query.prepare("DELETE from PROJECTION where num_projection = :num_projection");
+    query.prepare("DELETE from PROJECTION where num_projection=:num_projection");
     query.bindValue(":num_projection", res);
     return query.exec();
 }
 
-QSqlQueryModel * projection::rechercher_p(int num_projection, QDateTime date_projection, int num_salle)
+QSqlQueryModel * projection::rechercher_p(int num_projection, int num_salle, QDateTime date_projection)
 {
     QSqlQuery *query=new QSqlQuery();
-    query->prepare("select * from projection where num_projection=:num_projection or date_projection=:date_projection "
-                   "or num_salle=:num_salle");
+    query->prepare("select * from projection where num_projection=:num_projection and num_salle=:num_salle and date_projection=:date_projection");
     query->bindValue(":num_projection",num_projection);
-    query->bindValue(":date_projection",date_projection);
     query->bindValue(":num_salle",num_salle);
+    query->bindValue(":date_projection",date_projection);
     query->exec();
-
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setQuery(*query);
     return model;
@@ -122,3 +120,19 @@ void projection::exporterExcel_p(QTableView *table)
         }
 }
 
+bool projection::num_existe(int num_projection)
+{
+    QSqlQuery query;
+    int n=0;
+    query.prepare("select * from projection where num_projection=:num_projection");
+    query.bindValue(":num_projection",num_projection);
+    query.exec();
+    while(query.next()){
+        n++;
+    }
+    if (n)
+    {
+        return true;
+    }
+    return false;
+}

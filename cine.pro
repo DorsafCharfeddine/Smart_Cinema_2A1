@@ -1,6 +1,7 @@
 QT       += core gui sql
 QT += widgets multimedia
 QT += multimedia
+QT += core gui charts
 
 CONFIG += console
 QT += printsupport
@@ -18,22 +19,27 @@ SOURCES += \
     arduino.cpp \
     connexion.cpp \
     dialog.cpp \
+    employe.cpp \
     film.cpp \
     main.cpp \
     mainwindow.cpp \
-    projection.cpp
+    projection.cpp \
+    stats.cpp
 
 HEADERS += \
     arduino.h \
     connexion.h \
     dialog.h \
+    employe.h \
     film.h \
     mainwindow.h \
-    projection.h
+    projection.h \
+    stats.h
 
 FORMS += \
     dialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    stats.ui
 
 TRANSLATIONS += \
     cine_en_US.ts
@@ -43,4 +49,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES +=
+RESOURCES += \
+    resource.qrc

@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "connexion.h"
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
                      QObject::tr("connection failed.\n" "Click cancel to exit"), QMessageBox::Cancel);
     }
 
+    QTranslator myappTranslator;
+       myappTranslator.load(QLocale(), QLatin1String("myapp"), QLatin1String("_"), QLatin1String(":/i18n"));
+       a.installTranslator(&myappTranslator);
 
 
     return a.exec();

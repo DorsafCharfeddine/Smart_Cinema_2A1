@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/rsc">
+        <file>img/night mode.jpg</file>
+        <file>img/day mode.jpg</file>
+    </qresource>
+</RCC>

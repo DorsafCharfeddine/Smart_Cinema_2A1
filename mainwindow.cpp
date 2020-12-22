@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "film.h"
 #include "projection.h"
+#include "stats.h"
 #include <QMessageBox>
 #include <QDate>
 #include <QString>
@@ -16,16 +17,18 @@
 #include <QRegExp>
 #include <QMediaPlayer>
 #include <QDateTime>
+#include <QTranslator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    duree_reg=QRegExp("[0-4]+h[0-5]+[0-9]$");
+    duree_reg=QRegExp("[0-4]+h[0-5]+[0-9]+m$");
     int const n=0;
 
     ui->setupUi(this);
 
+    this->setStyleSheet("background-color: rgb(129, 173, 186); color: rgb(0, 0, 0);");
 
     QMediaPlayer *player = new QMediaPlayer;
     player->setMedia(QUrl::fromLocalFile("C:/Users/Asus/Documents/cine/Beautiful-cinematic-piano-background-music.mp3"));
@@ -43,37 +46,33 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_id->setPlaceholderText("ID...");
     ui->lineEdit_nom->setPlaceholderText("Nom...");
     ui->textEdit_description->setPlaceholderText("Desc...");
-    ui->lineEdit_duree->setPlaceholderText(".h..");
-    ui->lineEdit_nump->setPlaceholderText("Num...");
-    ui->lineEdit_idfilmp->setPlaceholderText("ID film...");
+    ui->lineEdit_duree->setPlaceholderText(".h..m");
+    ui->lineEdit_nump->setPlaceholderText("Num proj...");
     ui->lineEdit_capacite->setPlaceholderText("Capacite...");
-    ui->lineEdit_rechid->setPlaceholderText("ID film...");
     ui->lineEdit_rechnom->setPlaceholderText("Nom film...");
-    ui->lineEdit_rech_nump->setPlaceholderText("Num projec...");
+    ui->lineEdit_rech_numP->setPlaceholderText("Num proj...");
 
     //this->setStyleSheet("background-color: rgb(96, 168, 209);");
 
     ui->lineEdit_id->setMaxLength(8);
-    ui->lineEdit_duree->setMaxLength(4);
-    ui->dateEdit_ds->setMinimumDate(QDate::currentDate().addDays(-45000));
+    ui->lineEdit_duree->setMaxLength(5);
+    ui->dateEdit_ds->setMinimumDate(QDate::currentDate().addYears(-100));
     ui->dateEdit_ds->setMaximumDate(QDate::currentDate().addDays(1));
     ui->dateEdit_ds->setDisplayFormat("dd.MM.yyyy");
-    ui->lineEdit_rechid->setMaxLength(8);
-    ui->dateEdit_rech->setMinimumDate(QDate::currentDate().addDays(-45000));
+    ui->dateEdit_rech->setMinimumDate(QDate::currentDate().addYears(-100));
     ui->dateEdit_rech->setMaximumDate(QDate::currentDate().addDays(1));
 
 
     ui->lineEdit_nump->setMaxLength(8);
-    ui->lineEdit_idfilmp->setMaxLength(8);
     ui->lineEdit_capacite->setMaxLength(3);
     ui->spinBox_salle->setMaximum(40);
     ui->dateTimeEdit_datep->setMinimumDateTime(QDateTime::currentDateTime());
-    ui->dateTimeEdit_datep->setMaximumDateTime(QDateTime::currentDateTime().addDays(730));
+    ui->dateTimeEdit_datep->setMaximumDateTime(QDateTime::currentDateTime().addYears(2));
     ui->dateTimeEdit_datep->setDisplayFormat("dd.MM.yyyy hh:mm");
-    ui->lineEdit_rech_nump->setMaxLength(8);
+    ui->lineEdit_rech_numP->setMaxLength(8);
     ui->spinBox_rechsalle->setMaximum(40);
-    ui->dateTimeEdit_rechP->setMinimumDateTime(QDateTime::currentDateTime());
-    ui->dateTimeEdit_rechP->setMaximumDateTime(QDateTime::currentDateTime().addDays(730));
+    ui->dateTimeEdit_rechP->setMinimumDateTime(QDateTime::currentDateTime().addYears(-2));
+    ui->dateTimeEdit_rechP->setMaximumDateTime(QDateTime::currentDateTime().addYears(8));
 
 
     ui->tableView_films->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -84,6 +83,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableView_films->setModel(tmpFilm.afficher());
     ui->tableView_projections->setModel(tmpProjection.afficher_p());
+
+    int nb = ui->tableView_films->model()->rowCount();
+    for (int i=0; i<nb; i++)
+      {
+          QString id = ui->tableView_films->model()->index(i, 0).data().toString();
+          ui->comboBox_idF_proj->addItem(id);
+      }
 }
 
 MainWindow::~MainWindow()
@@ -91,10 +97,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_ajouter_clicked()
 {
-    bool duree_verif = duree_reg.exactMatch(ui->lineEdit_duree->text());
+    bool duree_verif = duree_reg.exactMatch(ui->lineEdit_duree->text()); 
     int id = ui->lineEdit_id->text().toInt();
     QString nom = ui->lineEdit_nom->text();
     QString genre = ui->comboBox_genre->currentText();
@@ -102,13 +107,22 @@ void MainWindow::on_ajouter_clicked()
     QString duree = ui->lineEdit_duree->text();
     QDate date_sortie = ui->dateEdit_ds->date();
     film f(id, nom, genre, description, duree, date_sortie);
-    if (id>0 && nom!="" && description!= "" && duree!="" && duree_verif)
+    bool existe = tmpFilm.id_existe(id);
+    if(existe)
+    {
+        ui->lineEdit_id->setStyleSheet("color: red");
+        ui->statusbar->showMessage("ID EXISTANT!");
+    }
+    if (id>0 && nom!="" && description!= "" && duree!="" && duree_verif && !existe)
     {
              bool test = f.ajouter();
              if(test)
              {
                     ui->tableView_films->setModel(tmpFilm.afficher());
-                    ui->statusbar->showMessage("Film ajouté avec succès.");
+                    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+                    notifyIcon->show();
+                    notifyIcon->setIcon(QIcon("icone.png"));
+                    notifyIcon->showMessage("GESTION FILMS ","Film Ajouté avec succès",QSystemTrayIcon::Information,15000);
                     ui->lineEdit_duree->setStyleSheet("color: black");
                     ui->lineEdit_id->setStyleSheet("color: black");
                     ui->lineEdit_nom->setStyleSheet("color: black");
@@ -177,12 +191,10 @@ void MainWindow::on_pushButton_suppFilm_clicked()
     QItemSelectionModel *select = ui->tableView_films->selectionModel();
 
       int id =select->selectedRows(0).value(0).data().toInt();
-
       if(tmpFilm.supprimer(id))
       {
         ui->tableView_films->setModel(tmpFilm.afficher());
         ui->statusbar->showMessage("Film supprimé avec succès.");
-
     }
     else
     {
@@ -196,10 +208,10 @@ void MainWindow::on_pushButton_clicked()
     QMediaPlayer * sound = new QMediaPlayer();
     sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
     sound->play();
-    int id=ui->lineEdit_rechid->text().toInt();
+    QString genre = ui->comboBox_rechF->currentText();
     QString nom=ui->lineEdit_rechnom->text();
     QDate date_sortie=ui->dateEdit_rech->date();
-    QSqlQueryModel *rech=tmpFilm.rechercher_multi(id,nom,date_sortie);
+    QSqlQueryModel *rech=tmpFilm.rechercher_multi(genre,nom,date_sortie);
     if(rech)
     {
         ui->tableView_films->setModel(rech);
@@ -290,6 +302,12 @@ void MainWindow::on_pushButton_2_clicked()
     tmpFilm.exporter_excel(ui->tableView_films);
 }
 
+void MainWindow::on_statsFilms_clicked()
+{
+    stats *w = new stats();
+               w->make();
+               w->show();
+}
 
 
 // ----------------PROJECTION-----------------//
@@ -299,20 +317,29 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_ajouter_proj_clicked()
 {
     int num_projection = ui->lineEdit_nump->text().toInt();
-    int id = ui->lineEdit_idfilmp->text().toInt();
+    int id = ui->comboBox_idF_proj->currentText().toInt();
     QDateTime date_projection = ui->dateTimeEdit_datep->dateTime();
     int num_salle = ui->spinBox_salle->text().toInt();
     int capacite_salle = ui->lineEdit_capacite->text().toInt();
     projection p(num_projection, id, date_projection, num_salle, capacite_salle);
-    if(num_projection>0 && num_salle !=0 && capacite_salle<500 && capacite_salle !=0)
+    bool existe = tmpProjection.num_existe(num_projection);
+    if(existe)
+    {
+        ui->lineEdit_nump->setStyleSheet("color: red");
+        ui->statusbar->showMessage("NUM PROJECTION EXISTANT!");
+    }
+    if(num_projection>0 && num_salle !=0 && capacite_salle<500 && capacite_salle !=0 && !existe)
     {
         bool test = p.ajouter_p();
         if(test)
         {
             ui->tableView_projections->setModel(tmpProjection.afficher_p());
-                QMessageBox::information(nullptr, QObject::tr("Ajout Projection") ,
-                        QObject::tr("Projection ajoutée avec succès.\n" "Click cancel to exit"), QMessageBox::Cancel);
-                foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
+            ui->lineEdit_nump->setStyleSheet("color: black");
+            ui->lineEdit_capacite->setStyleSheet("color: black");
+            QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+            notifyIcon->show();
+            notifyIcon->setIcon(QIcon("icone.png"));
+            notifyIcon->showMessage("GESTION PROJECTIONS ","Projection Ajoutée avec succès",QSystemTrayIcon::Information,15000);                foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
                 {
                  widget->clear();
                 }
@@ -391,10 +418,10 @@ void MainWindow::on_rech_proj_clicked()
     QMediaPlayer * sound = new QMediaPlayer();
        sound->setMedia(QUrl("C:/Users/Asus/Documents/cine/click3.mp3"));
        sound->play();
-    int num_projection=ui->lineEdit_rech_nump->text().toInt();
-    QDateTime date_projection=ui->dateTimeEdit_rechP->dateTime();
-    int num_salle=ui->spinBox_rechsalle->text().toInt();
-    QSqlQueryModel *rech=tmpProjection.rechercher_p(num_projection,date_projection,num_salle);
+    int num_projection = ui->lineEdit_rech_numP->text().toInt();
+    int num_salle = ui->spinBox_rechsalle->text().toInt();
+    QDateTime date_projection = ui->dateTimeEdit_rechP->dateTime();
+    QSqlQueryModel *rech=tmpProjection.rechercher_p(num_projection ,num_salle, date_projection);
     if(rech)
     {
         ui->tableView_projections->setModel(rech);
@@ -501,35 +528,30 @@ void MainWindow::on_pushButton_afficherP_clicked()
     ui->tableView_projections->setModel(tmpProjection.afficher_p());
 }
 
-void MainWindow::on_comboBox_idF_proj_activated(const QString &arg1)
-{
-    /*QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery *qry = new QSqlQuery();
-    qry->prepare("select id from film");
-    qry->exec();
-    model->setQuery(*qry);
-    ui->comboBox_idF_proj->setModel(model);
-    qDebug() << (model->rowCount());*/
 
+void MainWindow::on_night_mode_clicked()
+{
+   //ui->pushButton_ajouter_proj->setStyleSheet("background-color:black;color:white}"
+                                              // "QPushButton::hover{color:white}");
+
+   ui->groupBox_ajoutP->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 gray, stop: 0.3 gray, stop: 1 gray);}");
+   ui->groupBox_listeP->setStyleSheet("background-color: gray}");
+   ui->groupBox_ajoutF->setStyleSheet("background-color: gray}");
+   ui->groupBox_listeF->setStyleSheet("background-color: gray}");
+   this->setStyleSheet("background-color: rgb(51, 47, 47); color: rgb(0, 0, 0);");
+    ui->tabWidget->setStyleSheet("QTabBar::tab {background-color: gray}");
 }
 
-void MainWindow::on_comboBox_idF_proj_currentIndexChanged(const QString &arg1)
+void MainWindow::on_daymode_clicked()
 {
-    QString id = ui->comboBox_idF_proj->currentText() ;
-    QSqlQuery qry;
-    qry.prepare("select * from film where id='"+id+"'");
-    qry.exec();
-}
-
-
-
-void MainWindow::on_idF_proj_clicked()
-{
-    QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery *qry = new QSqlQuery();
-    qry->prepare("select id from film");
-    qry->exec();
-    model->setQuery(*qry);
-    ui->comboBox_idF_proj->setModel(model);
-    qDebug() << (model->rowCount());
+    this->setStyleSheet("background-color: rgb(129, 173, 186); color: rgb(0, 0, 0);");
+    ui->groupBox_ajoutF->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x1: 0, y2: 1, stop: 0.5 #88D1C7, stop: 1 #FFFFFF);}");
+    ui->groupBox_listeF->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x1: 0, y2: 1, stop: 0 #88D1C7, stop: 1 #FFFFFF);}");
+    ui->groupBox_ajoutP->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x1: 0, y2: 1, stop: 0 #88D1C7, stop: 1 #FFFFFF);}");
+    ui->groupBox_listeP->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x1: 0, y2: 1, stop: 0 #88D1C7, stop: 1 #FFFFFF);}");
+    ui->tabWidget->setStyleSheet("QTabBar::tab {background : qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,stop: 0 #268D8D, stop: 0.6 white)"
+                            "font-color: purple};");
+    ui->tabWidget->setStyleSheet("QTabBar::tab:!selected { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
+                                 "stop: 0 white, stop: 0.4 white"
+                                 "stop: 0.5 white, stop: 1.0 blue};");
 }

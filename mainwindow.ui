@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>933</width>
-    <height>575</height>
+    <width>1021</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="font">
@@ -28,8 +28,8 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>901</width>
-      <height>521</height>
+      <width>981</width>
+      <height>531</height>
      </rect>
     </property>
     <property name="font">
@@ -41,9 +41,6 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QTabWidget::pane { /* The tab widget frame */
-	font: 8pt &quot;Leelawadee UI Semilight&quot;;
-	font: 57 8pt &quot;Yu Gothic Medium&quot;;
-	font: 8pt &quot;Times New Roman&quot;;
 	font: 75 8pt &quot;MS Shell Dlg 2&quot;;
     border-top: 2px solid #C2C7CB;
 }
@@ -56,9 +53,6 @@ QTabWidget::tab-bar {
     alignment: center;
 }
 QTabBar::tab {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
-                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
     border: 2px solid #C4C4C3;
     border-bottom-color: #C2C7CB; /* same as the pane color */
     border-top-left-radius: 4px;
@@ -82,10 +76,13 @@ color: purple;
      <number>1</number>
     </property>
     <widget class="QWidget" name="Film">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <attribute name="title">
       <string>Film</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox_9">
+     <widget class="QGroupBox" name="groupBox_ajoutF">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -115,7 +112,7 @@ color: purple;
       <property name="title">
        <string>Ajouter film</string>
       </property>
-      <widget class="QLabel" name="label_37">
+      <widget class="QLabel" name="label_id">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -131,7 +128,7 @@ color: purple;
         <string>ID Film</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_38">
+      <widget class="QLabel" name="label_nom">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -147,7 +144,7 @@ color: purple;
         <string>Nom</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_39">
+      <widget class="QLabel" name="label_genre">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -163,7 +160,7 @@ color: purple;
         <string>Genre</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_40">
+      <widget class="QLabel" name="label_duree">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -179,7 +176,7 @@ color: purple;
         <string>Durée</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_41">
+      <widget class="QLabel" name="label_datesortie">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -279,7 +276,7 @@ QPushButton:disabled {
         <string>Ajouter</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_42">
+      <widget class="QLabel" name="label_descrip">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -363,6 +360,11 @@ border-radius: 4px;</string>
        </item>
        <item>
         <property name="text">
+         <string>Disney</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Comedie</string>
         </property>
        </item>
@@ -374,11 +376,6 @@ border-radius: 4px;</string>
        <item>
         <property name="text">
          <string>Action</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Thriller</string>
         </property>
        </item>
        <item>
@@ -403,12 +400,12 @@ border-radius: 4px;</string>
        </item>
       </widget>
      </widget>
-     <widget class="QGroupBox" name="groupBox_17">
+     <widget class="QGroupBox" name="groupBox_listeF">
       <property name="geometry">
        <rect>
         <x>310</x>
         <y>10</y>
-        <width>561</width>
+        <width>651</width>
         <height>451</height>
        </rect>
       </property>
@@ -435,9 +432,9 @@ border-radius: 4px;</string>
       <widget class="QPushButton" name="pushButton_pdfFilms">
        <property name="geometry">
         <rect>
-         <x>440</x>
+         <x>430</x>
          <y>410</y>
-         <width>75</width>
+         <width>91</width>
          <height>23</height>
         </rect>
        </property>
@@ -460,7 +457,7 @@ QPushButton:disabled {
         <rect>
          <x>20</x>
          <y>130</y>
-         <width>511</width>
+         <width>591</width>
          <height>271</height>
         </rect>
        </property>
@@ -471,7 +468,7 @@ QTableView::indicator:unchecked {
 }
  QTableView {
      selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,
-                                 stop: 0 #FF92BB, stop: 1 lightgrey);
+                                 stop: 0 #A251C0, stop: 1 lightgrey);
  }</string>
        </property>
       </widget>
@@ -499,12 +496,12 @@ QPushButton:disabled {
         <string>Supprimer</string>
        </property>
       </widget>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="groupBox_rechF">
        <property name="geometry">
         <rect>
          <x>20</x>
          <y>30</y>
-         <width>501</width>
+         <width>591</width>
          <height>51</height>
         </rect>
        </property>
@@ -516,42 +513,10 @@ QPushButton:disabled {
        <property name="title">
         <string>Rechercher</string>
        </property>
-       <widget class="QLineEdit" name="lineEdit_rechid">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>121</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Yu Gothic UI Light</family>
-          <pointsize>8</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-          <underline>false</underline>
-          <kerning>true</kerning>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-padding: 1px;
-border-style: solid;
-border: 1px solid grey;
-border-radius: 4px;
-}</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="lineEdit_rechnom">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>10</x>
           <y>20</y>
           <width>141</width>
           <height>21</height>
@@ -595,7 +560,7 @@ border-radius: 4px;
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>410</x>
+          <x>480</x>
           <y>20</y>
           <width>81</width>
           <height>23</height>
@@ -614,6 +579,68 @@ QPushButton:disabled {
         <property name="text">
          <string>Rechercher</string>
         </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_rechF">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>20</y>
+          <width>111</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:QLinearGradient(x1: 0, y1: 0, x1: 0, y0: 1, stop: 0 #eef, stop: 1 #ccf);
+padding: 1px;
+border-style: solid;
+border: 1px solid grey;
+border-radius: 4px;</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Horreur</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Disney</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Comedie</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Drama</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Action</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Aventure</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Science-Fiction</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fantasie</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Historique</string>
+         </property>
+        </item>
        </widget>
       </widget>
       <widget class="QPushButton" name="pushButton_update">
@@ -639,12 +666,12 @@ QPushButton:disabled {
         <string>Modifier</string>
        </property>
       </widget>
-      <widget class="QGroupBox" name="groupBox_4">
+      <widget class="QGroupBox" name="groupBox_triF">
        <property name="geometry">
         <rect>
          <x>20</x>
          <y>80</y>
-         <width>501</width>
+         <width>591</width>
          <height>41</height>
         </rect>
        </property>
@@ -659,7 +686,7 @@ QPushButton:disabled {
        <widget class="QPushButton" name="pushButton_tri">
         <property name="geometry">
          <rect>
-          <x>410</x>
+          <x>480</x>
           <y>10</y>
           <width>81</width>
           <height>20</height>
@@ -722,9 +749,9 @@ QPushButton:disabled {
       <widget class="QPushButton" name="pushButton_2">
        <property name="geometry">
         <rect>
-         <x>350</x>
+         <x>330</x>
          <y>410</y>
-         <width>81</width>
+         <width>91</width>
          <height>23</height>
         </rect>
        </property>
@@ -745,9 +772,9 @@ QPushButton:disabled {
       <widget class="QPushButton" name="pushButton_afficherF">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>240</x>
          <y>410</y>
-         <width>75</width>
+         <width>81</width>
          <height>23</height>
         </rect>
        </property>
@@ -765,14 +792,38 @@ QPushButton:disabled {
         <string>Afficher Tout</string>
        </property>
       </widget>
-      <zorder>groupBox_4</zorder>
-      <zorder>groupBox</zorder>
+      <widget class="QPushButton" name="statsFilms">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>410</y>
+         <width>81</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton:pressed {
+       background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,   stop:0 rgba(12, 142, 134), stop:1 rgba(57, 179, 171))
+}
+QPushButton:hover:!pressed{ color: #339999}
+
+QPushButton:disabled {
+       background-color: rgb(170, 170, 127)
+}</string>
+       </property>
+       <property name="text">
+        <string>Stats</string>
+       </property>
+      </widget>
+      <zorder>groupBox_triF</zorder>
+      <zorder>groupBox_rechF</zorder>
       <zorder>pushButton_pdfFilms</zorder>
       <zorder>tableView_films</zorder>
       <zorder>pushButton_suppFilm</zorder>
       <zorder>pushButton_update</zorder>
       <zorder>pushButton_2</zorder>
       <zorder>pushButton_afficherF</zorder>
+      <zorder>statsFilms</zorder>
      </widget>
      <widget class="QSpinBox" name="spinBox">
       <property name="geometry">
@@ -827,12 +878,61 @@ border-radius: 4px;
        <string>Music</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="daymode">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>460</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/rsc/img/day mode.jpg</normaloff>:/rsc/img/day mode.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>66</width>
+        <height>35</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="night_mode">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>460</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/rsc/img/night mode.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/rsc/img/night mode.jpg</normaloff>:/rsc/img/night mode.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>700</width>
+        <height>200</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="Projection">
      <attribute name="title">
       <string>Projection</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox_20">
+     <widget class="QGroupBox" name="groupBox_ajoutP">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -864,7 +964,7 @@ border-radius: 4px;
       <property name="title">
        <string>Ajouter projection</string>
       </property>
-      <widget class="QLabel" name="label_82">
+      <widget class="QLabel" name="label_date_heure">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -880,12 +980,12 @@ border-radius: 4px;
         <string>Date et heure</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_84">
+      <widget class="QLabel" name="label_idFK">
        <property name="geometry">
         <rect>
          <x>30</x>
          <y>90</y>
-         <width>61</width>
+         <width>81</width>
          <height>20</height>
         </rect>
        </property>
@@ -893,28 +993,10 @@ border-radius: 4px;
         <string notr="true">font: 75 9pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string>ID Film</string>
+        <string>Nom du Film</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_idfilmp">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>270</y>
-         <width>141</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">
-padding: 1px;
-border-style: solid;
-border: 1px solid grey;
-border-radius: 4px;
-</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_85">
+      <widget class="QLabel" name="label_numsalle">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -971,7 +1053,7 @@ QPushButton:disabled {
         <string>Ajouter</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_numP">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1082,25 +1164,24 @@ border-radius: 4px;</string>
        </property>
       </widget>
       <zorder>idF_proj</zorder>
-      <zorder>label_82</zorder>
-      <zorder>label_84</zorder>
-      <zorder>lineEdit_idfilmp</zorder>
-      <zorder>label_85</zorder>
+      <zorder>label_date_heure</zorder>
+      <zorder>label_idFK</zorder>
+      <zorder>label_numsalle</zorder>
       <zorder>spinBox_salle</zorder>
       <zorder>pushButton_ajouter_proj</zorder>
-      <zorder>label</zorder>
+      <zorder>label_numP</zorder>
       <zorder>lineEdit_nump</zorder>
       <zorder>dateTimeEdit_datep</zorder>
       <zorder>label_2</zorder>
       <zorder>lineEdit_capacite</zorder>
       <zorder>comboBox_idF_proj</zorder>
      </widget>
-     <widget class="QGroupBox" name="groupBox_18">
+     <widget class="QGroupBox" name="groupBox_listeP">
       <property name="geometry">
        <rect>
         <x>310</x>
         <y>10</y>
-        <width>561</width>
+        <width>651</width>
         <height>451</height>
        </rect>
       </property>
@@ -1131,7 +1212,7 @@ border-radius: 4px;</string>
         <rect>
          <x>440</x>
          <y>410</y>
-         <width>81</width>
+         <width>91</width>
          <height>23</height>
         </rect>
        </property>
@@ -1154,7 +1235,7 @@ QPushButton:disabled {
         <rect>
          <x>20</x>
          <y>130</y>
-         <width>511</width>
+         <width>531</width>
          <height>271</height>
         </rect>
        </property>
@@ -1165,7 +1246,7 @@ QTableView::indicator:unchecked {
 }
  QTableView {
      selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,
-                                 stop: 0 #FF92BB, stop: 1 lightgrey);
+                                 stop: 0 #A251C0, stop: 1 lightgrey);
  }</string>
        </property>
       </widget>
@@ -1221,7 +1302,7 @@ QPushButton:disabled {
         <rect>
          <x>20</x>
          <y>30</y>
-         <width>501</width>
+         <width>511</width>
          <height>51</height>
         </rect>
        </property>
@@ -1234,7 +1315,7 @@ QPushButton:disabled {
        <property name="title">
         <string>Rechercher</string>
        </property>
-       <widget class="QLineEdit" name="lineEdit_rech_nump">
+       <widget class="QLineEdit" name="lineEdit_rech_numP">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1263,7 +1344,7 @@ border-radius: 4px;
        <widget class="QPushButton" name="rech_proj">
         <property name="geometry">
          <rect>
-          <x>404</x>
+          <x>410</x>
           <y>20</y>
           <width>81</width>
           <height>23</height>
@@ -1325,7 +1406,7 @@ border-radius: 4px;
         <rect>
          <x>20</x>
          <y>80</y>
-         <width>501</width>
+         <width>511</width>
          <height>41</height>
         </rect>
        </property>
@@ -1340,7 +1421,7 @@ border-radius: 4px;
        <widget class="QPushButton" name="tri_proj">
         <property name="geometry">
          <rect>
-          <x>404</x>
+          <x>410</x>
           <y>10</y>
           <width>81</width>
           <height>21</height>
@@ -1405,7 +1486,7 @@ QPushButton:disabled {
         <rect>
          <x>344</x>
          <y>410</y>
-         <width>81</width>
+         <width>91</width>
          <height>23</height>
         </rect>
        </property>
@@ -1426,9 +1507,9 @@ QPushButton:disabled {
       <widget class="QPushButton" name="pushButton_afficherP">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>254</x>
          <y>410</y>
-         <width>75</width>
+         <width>81</width>
          <height>23</height>
         </rect>
        </property>
@@ -1455,11 +1536,55 @@ QPushButton:disabled {
       <zorder>exporterExcel_proj</zorder>
       <zorder>pushButton_afficherP</zorder>
      </widget>
-    </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Stats</string>
-     </attribute>
+     <widget class="QToolButton" name="night_mode11">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>460</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/rsc/img/night mode.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/rsc/img/night mode.jpg</normaloff>:/rsc/img/night mode.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>700</width>
+        <height>200</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="daymode11">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>460</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/rsc/img/day mode.jpg</normaloff>:/rsc/img/day mode.jpg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>66</width>
+        <height>35</height>
+       </size>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -1468,13 +1593,15 @@ QPushButton:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>933</width>
+     <width>1021</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

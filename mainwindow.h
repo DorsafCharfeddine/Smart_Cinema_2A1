@@ -24,7 +24,6 @@ public:
 ;
 
 private slots:
-
     void on_ajouter_clicked();
 
     void on_tableView_films_activated(const QModelIndex &index);
@@ -61,11 +60,11 @@ private slots:
 
     void on_pushButton_afficherP_clicked();
 
-    void on_comboBox_idF_proj_currentIndexChanged(const QString &arg1);
+    void on_night_mode_clicked();
 
-    void on_comboBox_idF_proj_activated(const QString &arg1);
+    void on_daymode_clicked();
 
-    void on_idF_proj_clicked();
+    void on_statsFilms_clicked();
 
 private:
     Ui::MainWindow *ui;

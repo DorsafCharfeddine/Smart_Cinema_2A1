@@ -68,15 +68,14 @@ bool film::supprimer(int id)
     return query.exec();
 }
 
-QSqlQueryModel * film::rechercher_multi(int id,QString nom,QDate date_sortie)
+QSqlQueryModel * film::rechercher_multi(QString genre,QString nom,QDate date_sortie)
 {
     QSqlQuery *query=new QSqlQuery();
-    query->prepare("select * from film where id=:id or nom=:nom or date_sortie=:date_sortie");
-    query->bindValue(":id",id);
+    query->prepare("select * from film where nom=:nom and genre=:genre and date_sortie=:date_sortie");
     query->bindValue(":nom",nom);
+    query->bindValue(":genre",genre);
     query->bindValue(":date_sortie",date_sortie);
     query->exec();
-
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setQuery(*query);
     return model;
@@ -127,4 +126,21 @@ void film::exporter_excel(QTableView *table)
             }
             file.close();
         }
+}
+
+bool film::id_existe(int id)
+{
+    QSqlQuery query;
+    int n=0;
+    query.prepare("select * from film where id=:id");
+    query.bindValue(":id",id);
+    query.exec();
+    while(query.next()){
+        n++;
+    }
+    if (n)
+    {
+        return true;
+    }
+    return false;
 }

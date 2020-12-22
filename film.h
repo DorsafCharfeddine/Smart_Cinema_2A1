@@ -35,10 +35,10 @@ public:
     bool ajouter();
     QSqlQueryModel * afficher();
     bool supprimer(int);
-    QSqlQueryModel * rechercher_multi(int, QString, QDate);
+    QSqlQueryModel * rechercher_multi(QString, QString, QDate);
     QSqlQueryModel * trier(QString);
     void exporter_excel(QTableView *table);
-
+    bool id_existe(int);
 };
 
 #endif // FILM_H
