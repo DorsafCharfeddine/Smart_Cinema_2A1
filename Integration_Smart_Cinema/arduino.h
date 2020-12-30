@@ -1,4 +1,4 @@
-/*#ifndef ARDUINO_H
+#ifndef ARDUINO_H
 #define ARDUINO_H
 
 #include <QtSerialPort/QSerialPort>
@@ -25,4 +25,4 @@ public:
 
 };
 
-#endif // ARDUINO_H*/
+#endif // ARDUINO_H

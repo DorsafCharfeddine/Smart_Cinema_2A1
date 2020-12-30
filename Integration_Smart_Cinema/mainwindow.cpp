@@ -3,6 +3,7 @@
 #include "film.h"
 #include "projection.h"
 #include "stats.h"
+#include "arduino.h"
 #include <QMessageBox>
 #include <QDate>
 #include <QString>
@@ -56,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_password->setPlaceholderText("PASSWORD..");
 
     //Background
-    QPixmap bkgnd("C:/Users/Asus/Documents/cine/background.jpg");
+    QPixmap bkgnd("C:/Users/Asus/Desktop/smart_cinema/Integration_Smart_Cinema/background.jpg");
        bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
        QPalette palette;
        palette.setBrush(QPalette::Background, bkgnd);
@@ -92,6 +93,22 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView_films->setModel(tmpFilm.afficher());
     ui->tableView_projections->setModel(tmpProjection.afficher_p());
 
+    int ret=A.connect_arduino();
+           switch (ret)
+           {
+           case 0:
+               qDebug() << "arduino is available and connected to:" << A.getarduino_port_name();
+               break;
+           case 1:
+               qDebug() << "arduino is available but not connected to:" << A.getarduino_port_name();
+               break;
+           case -1:
+               qDebug() << "arduino is not available";
+               break;
+           }
+
+           QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
+
     int nb = ui->tableView_films->model()->rowCount();
     for (int i=0; i<nb; i++)
       {
@@ -108,21 +125,67 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_login_clicked()
 {
-    if(ui->lineEdit_username->text()=="dorsaf")
+    if(ui->lineEdit_username->text()=="admin" && ui->lineEdit_password->text()== "admin")
+    {
+        ui->stackedWidget->setCurrentIndex(1);
+        reset();
+    }
+    else if(ui->lineEdit_username->text()=="agent" && ui->lineEdit_password->text()== "agent")
     {
         ui->stackedWidget->setCurrentIndex(2);
+        reset();
     }
+    else
+    {
+        QMessageBox::critical(nullptr, QObject::tr("Username ou mot de passe incorrect") ,
+                     QObject::tr("Connexion failed.\n" "Click cancel to exit"), QMessageBox::Cancel);
+        reset();
+    }
+}
+void MainWindow::reset()
+{
+    foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
+        {
+        widget->clear();
+        }
+}
+void MainWindow::on_menuPROG1_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::on_menuPROG2_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::on_logout_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+void MainWindow::on_pushButton_logout_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_menuNOTIF1_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_menuNOTIF2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+// -------------------DORSAF------------//
 
 void MainWindow::on_ajouter_clicked()
 {
@@ -571,3 +634,30 @@ void MainWindow::on_returnPROG_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
+
+void MainWindow::update_label()
+{
+    data=A.read_from_arduino();
+    tmp+=data;
+    qDebug() << data;
+    if (tmp.endsWith("\r\n"))
+    {
+        tmp = tmp.left(5);
+        ui->lcdNumber_temp->display(tmp.toFloat());
+        if(tmp.toFloat() > 20)
+        {
+            QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+            notifyIcon->show();
+            notifyIcon->setIcon(QIcon("icone.png"));
+            notifyIcon->showMessage("GESTION NOTIF ","ATTENTION TEMPERATURE ELEVEE DETECTEE",QSystemTrayIcon::Information,15000);
+         }
+        tmp="";
+     }
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+//----------ELI BECH Y'INTEGRI BA3DI--------//

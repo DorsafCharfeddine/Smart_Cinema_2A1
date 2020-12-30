@@ -3,6 +3,7 @@ QT += widgets multimedia
 QT += multimedia
 QT += core gui charts
 
+QT += core gui serialport
 CONFIG += console
 QT += printsupport
 
@@ -19,7 +20,6 @@ SOURCES += \
     arduino.cpp \
     connexion.cpp \
     dialog.cpp \
-    employe.cpp \
     film.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,7 +30,6 @@ HEADERS += \
     arduino.h \
     connexion.h \
     dialog.h \
-    employe.h \
     film.h \
     mainwindow.h \
     projection.h \

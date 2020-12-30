@@ -17,13 +17,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant Data(const QModelIndex &index, int role) const;
 
 
 
 ;
 
 private slots:
+    void update_label();
+
     void on_ajouter_clicked();
 
     void on_tableView_films_activated(const QModelIndex &index);
@@ -76,13 +78,28 @@ private slots:
 
     void on_nightmode_clicked();
 
+    void on_pushButton_3_clicked();
+
+    void on_menuNOTIF1_clicked();
+
+    void on_menuNOTIF2_clicked();
+
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_logout_clicked();
+
+    void on_menuPROG1_clicked();
+
+    void reset();
 private:
     Ui::MainWindow *ui;
     film tmpFilm;
     projection tmpProjection;
     //arduino A;
-    QByteArray Data;
+    QByteArray data;
     QRegExp duree_reg;
+    QString tmp="";
+    arduino A;
 
     //QSound *son;
 

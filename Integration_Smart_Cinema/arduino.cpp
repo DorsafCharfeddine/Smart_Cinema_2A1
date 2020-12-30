@@ -1,4 +1,4 @@
-/*#include "arduino.h"
+#include "arduino.h"
 #include <QDebug>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
@@ -72,4 +72,4 @@ QByteArray arduino:: read_from_arduino()
        data=serial->readAll();
        return data;
    }
-}*/
+}
