@@ -184,6 +184,11 @@ void MainWindow::on_pushButton_4_clicked()
     ui->stackedWidget->setCurrentIndex(5);
 }
 
+void MainWindow::on_eye_pwd_clicked()
+{
+    ui->lineEdit_password->setEchoMode(QLineEdit::Normal);
+}
+
 
 // -------------------DORSAF------------//
 
@@ -644,7 +649,7 @@ void MainWindow::update_label()
     {
         tmp = tmp.left(5);
         ui->lcdNumber_temp->display(tmp.toFloat());
-        if(tmp.toFloat() > 20)
+        if(tmp.toFloat() > 25)
         {
             QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
             notifyIcon->show();
@@ -659,5 +664,29 @@ void MainWindow::on_pushButton_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
+
+
+void MainWindow::on_checkBox_ENGLISH_clicked()
+{
+    if(ui->checkBox_ENGLISH->isChecked())
+    {
+    translator->load("C:/Users/Asus/Desktop/smart_cinema/Integration_Smart_Cinema/english.qm");
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+    }
+    ui->checkBox_FRENCH->setChecked(false);
+}
+
+void MainWindow::on_checkBox_FRENCH_clicked()
+{
+    if(ui->checkBox_FRENCH->isChecked())
+    {
+    translator->load("C:/Users/Asus/Desktop/smart_cinema/Integration_Smart_Cinema/french.ts");
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+    }
+    ui->checkBox_ENGLISH->setChecked(false);
+}
+
 
 //----------ELI BECH Y'INTEGRI BA3DI--------//

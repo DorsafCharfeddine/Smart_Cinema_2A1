@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLabel" name="label_7">
@@ -89,6 +89,9 @@ border-bottom: 1px solid #717072;
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_password">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>410</x>
@@ -244,6 +247,34 @@ border-radius:60px;
         <width>128</width>
         <height>128</height>
        </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="eye_pwd">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>300</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+background:#96CCE6;
+border-radius:12px;
+border-style: solid;
+border:  transparent;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/rsc/img/pwd eye.png</normaloff>:/rsc/img/pwd eye.png</iconset>
       </property>
      </widget>
     </widget>
@@ -431,10 +462,10 @@ QPushButton:disabled {
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>130</x>
         <y>40</y>
-        <width>341</width>
-        <height>451</height>
+        <width>851</width>
+        <height>521</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -592,9 +623,9 @@ QPushButton:disabled {
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>70</x>
         <y>60</y>
-        <width>321</width>
+        <width>901</width>
         <height>441</height>
        </rect>
       </property>
@@ -638,12 +669,40 @@ QPushButton:disabled {
        <string>LOGOUT</string>
       </property>
      </widget>
+     <widget class="QCheckBox" name="checkBox_FRENCH">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>70</y>
+        <width>70</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FRENCH</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_ENGLISH">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>70</y>
+        <width>70</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ENGLISH</string>
+      </property>
+     </widget>
      <zorder>label_6</zorder>
      <zorder>menuPROG2</zorder>
      <zorder>menuCLIENT2</zorder>
      <zorder>menuRES2</zorder>
      <zorder>menuNOTIF2</zorder>
      <zorder>logout</zorder>
+     <zorder>checkBox_FRENCH</zorder>
+     <zorder>checkBox_ENGLISH</zorder>
     </widget>
     <widget class="QWidget" name="page_6">
      <widget class="QPushButton" name="pushButton_4">

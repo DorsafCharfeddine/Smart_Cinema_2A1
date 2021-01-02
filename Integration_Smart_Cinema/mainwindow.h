@@ -4,7 +4,7 @@
 #include "projection.h"
 #include "arduino.h"
 #include <QMainWindow>
-
+#include <QTranslator>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -91,6 +91,14 @@ private slots:
     void on_menuPROG1_clicked();
 
     void reset();
+    void on_checkBox_ENGLISH_clicked();
+
+    void on_checkBox_FRENCH_clicked();
+
+    void on_eye_pwd_clicked();
+
+    void on_eye_pwd_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     film tmpFilm;
@@ -100,6 +108,7 @@ private:
     QRegExp duree_reg;
     QString tmp="";
     arduino A;
+    QTranslator *translator=new QTranslator;
 
     //QSound *son;
 
