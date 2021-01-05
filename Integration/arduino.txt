@@ -1,0 +1,24 @@
+//affichage temperature
+
+#define LM35 A0
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int contraste =70;
+
+void setup(){
+  lcd.begin(16,2);
+  Serial.begin(9600);
+  analogWrite(6, contraste);
+
+}
+void loop(){
+  float lmvalue = analogRead(LM35);
+  float tempr = (lmvalue * 500)/1023;
+  Serial.println(tempr); // tmp in ce
+  lcd.setCursor(2,0);
+  lcd.print("Temperature");
+  lcd.setCursor(4, 1);
+  lcd.print(tempr);
+  lcd.print("C");
+  delay(1000);
+}
