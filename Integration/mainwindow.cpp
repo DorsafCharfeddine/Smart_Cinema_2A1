@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_password->setPlaceholderText("PASSWORD..");
 
     //Background
-    QPixmap bkgnd("C:/Users/Asus/Desktop/smart_cinema/Integration_Smart_Cinema/background.jpg");
+    QPixmap bkgnd("C:\\Users\\Asus\\Desktop\\backgroundd.jpg");
        bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
        QPalette palette;
        palette.setBrush(QPalette::Background, bkgnd);
@@ -92,6 +92,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView_films->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView_projections->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView_projections->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView_poste_3->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView_employe_3->setSelectionMode(QAbstractItemView::SingleSelection);
 
     //Affichage des tables
     ui->tableView_films->setModel(tmpFilm.afficher());
@@ -247,10 +249,7 @@ void MainWindow::on_ajouter_clicked()
                     ui->lineEdit_id->setStyleSheet("color: black");
                     ui->lineEdit_nom->setStyleSheet("color: black");
                     ui->textEdit_description->setStyleSheet("color: black");
-                    foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
-                        {
-                        widget->clear();
-                        }
+                    reset();
              }
      }
      else
@@ -314,8 +313,10 @@ void MainWindow::on_pushButton_suppFilm_clicked()
       if(tmpFilm.supprimer(id))
       {
         ui->tableView_films->setModel(tmpFilm.afficher());
-        ui->statusbar->showMessage("Film supprimé avec succès.");
-    }
+        QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+        notifyIcon->show();
+        notifyIcon->setIcon(QIcon("icone.png"));
+        notifyIcon->showMessage("GESTION FILMS ","Film supprimé avec succès",QSystemTrayIcon::Information,15000);    }
     else
     {
           ui->statusbar->showMessage("Erreur de supression. Film existe dans une projection.");
@@ -457,10 +458,8 @@ void MainWindow::on_pushButton_ajouter_proj_clicked()
             QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
             notifyIcon->show();
             notifyIcon->setIcon(QIcon("icone.png"));
-            notifyIcon->showMessage("GESTION PROJECTIONS ","Projection Ajoutée avec succès",QSystemTrayIcon::Information,15000);                foreach(QLineEdit *widget, this->findChildren<QLineEdit*>())
-                {
-                 widget->clear();
-                }
+            notifyIcon->showMessage("GESTION PROJECTIONS ","Projection Ajoutée avec succès",QSystemTrayIcon::Information,15000);
+            reset();
         }
     }
     else
@@ -522,7 +521,10 @@ void MainWindow::on_pushButton_supp_proj_clicked()
       if(tmpProjection.supprimer_p(num_projection))
       {
           ui->tableView_projections->setModel(tmpProjection.afficher_p());
-          ui->statusbar->showMessage("Projection supprimée avec succès.");
+          QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+          notifyIcon->show();
+          notifyIcon->setIcon(QIcon("icone.png"));
+          notifyIcon->showMessage("GESTION PROJECTIONS ","Projection supprimée avec succès",QSystemTrayIcon::Information,15000);
       }
       else
       {
@@ -650,6 +652,10 @@ void MainWindow::on_nightmode_clicked()
     ui->groupBox_listeP->setStyleSheet("background-color: gray}");
     ui->groupBox_ajoutF->setStyleSheet("background-color: gray}");
     ui->groupBox_listeF->setStyleSheet("background-color: gray}");
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+    notifyIcon->show();
+    notifyIcon->setIcon(QIcon("icone.png"));
+    notifyIcon->showMessage("GESTION FILMS ET PROJECTIONS","Mode nuit activé.",QSystemTrayIcon::Information,15000);
 }
 
 void MainWindow::on_daymode_clicked()
@@ -700,6 +706,10 @@ void MainWindow::on_checkBox_ENGLISH_clicked()
     ui->retranslateUi(this);
     }
     ui->checkBox_FRENCH->setChecked(false);
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+    notifyIcon->show();
+    notifyIcon->setIcon(QIcon("icone.png"));
+    notifyIcon->showMessage("MANAGE PROGRAM","Lanquage has been changed.",QSystemTrayIcon::Information,15000);
 }
 
 void MainWindow::on_checkBox_FRENCH_clicked()
@@ -740,7 +750,7 @@ void MainWindow::on_ae_pushButton_3_clicked()
 
 void MainWindow::on_se_pushButton_3_clicked()
 {
-    QItemSelectionModel* select = ui->tableView_employe_3->selectionModel();
+    QItemSelectionModel *select = ui->tableView_employe_3->selectionModel();
 
     QString NOM = select->selectedRows(0).value(0).data().toString();
 
@@ -874,7 +884,7 @@ void MainWindow::on_mp_pushButton_3_clicked()
 
 void MainWindow::on_sp_pushButton_3_clicked()
 {
-    QItemSelectionModel* select = ui->tableView_poste_3->selectionModel();
+    QItemSelectionModel *select = ui->tableView_poste_3->selectionModel();
 
     QString NOM = select->selectedRows(0).value(0).data().toString();
 
@@ -1448,7 +1458,7 @@ void MainWindow::on_modifcl_clicked()
 
  client c(id,nom,prenom,email);
      QMessageBox msg;
-     bool testt=c.verifierId(id);
+     /*bool testt=c.verifierId(id);
              if(testt)
               {
                   QMessageBox::critical(nullptr, QObject::tr("Ajouter une Annonce"),
@@ -1458,7 +1468,7 @@ void MainWindow::on_modifcl_clicked()
                 }
              else
 
-     {
+     {*/
                  bool test=c.modifier(id,nom,prenom,email);
                  if(test){
 
@@ -1473,8 +1483,6 @@ void MainWindow::on_modifcl_clicked()
      msg.exec();
      }
  }
-
-}
 
 void MainWindow::on_quittercl_clicked()
 {

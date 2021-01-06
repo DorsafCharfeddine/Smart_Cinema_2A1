@@ -37,7 +37,7 @@ bool poste::supprimer(QString NOM)
 {
     QSqlQuery qry;
     QString temp_nom =NOM;
-    qry.prepare("Delete from POSTE where NOM = :NOM");
+    qry.prepare("DELETE from POSTE where NOM =:NOM");
     qry.bindValue(":NOM",temp_nom);
     return qry.exec();
 }
