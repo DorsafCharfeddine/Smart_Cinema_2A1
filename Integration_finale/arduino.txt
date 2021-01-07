@@ -1,0 +1,40 @@
+#define LM35 A0
+#define PIN_LED 13
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(2, 7, 11, 10, 9, 8);
+int contraste =70;
+String d;
+
+void setup(){
+  lcd.begin(16,2);
+  Serial.begin(9600);
+  analogWrite(6, contraste);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
+
+}
+void loop(){
+  float lmvalue = analogRead(LM35);
+  float tempr = (lmvalue * 500)/1023;
+  Serial.println(tempr); // tmp in ce
+  lcd.setCursor(2,0);
+  lcd.print("Temperature");
+  lcd.setCursor(4, 1);
+  lcd.print(tempr);
+  lcd.print("C");
+  delay(1000);
+  
+  if (Serial.available() > 0)
+  {
+    lcd.clear();
+    d = Serial.readString();
+    if (d == "Acces Refuse")
+    {   
+      lcd.setCursor(1,0);  
+      lcd.print("Acces Refuse");
+      digitalWrite(PIN_LED, HIGH);
+      delay(5000);
+      digitalWrite(PIN_LED, LOW);
+    }
+  }
+}
